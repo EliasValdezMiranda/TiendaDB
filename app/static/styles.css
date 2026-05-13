@@ -1,0 +1,26 @@
+/* Size for brand */
+nav .navbar-brand
+{
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.carousel-item img {
+    height: 400px; 
+    object-fit: cover;
+}
+
+.title
+{
+    padding-bottom: 1rem;
+}
+
+.form-select
+{
+    margin-bottom: 1rem;
+}
+
+.nav-item
+{
+    font-weight: bold;
+}

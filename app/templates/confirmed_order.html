@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Orden confirmada
+{% endblock %}
+
+{% block main %}
+    <h2 class="title">¡Orden confirmada!</h2>
+    {% if completada %}
+    <h4 class="subtitle mb-4">Pase a recoger su orden y completar el pago en la hora especificada</h4>
+    {% else %}
+    <h4 class="subtitle mb-4">Pase a recoger su orden en la hora especificada</h4>
+    {% endif %}
+    <form action="/" method="get" class="text-center">
+        <button class="btn btn-success" type="submit">Regresar al menú principal</button>
+    </form>
+{% endblock %}

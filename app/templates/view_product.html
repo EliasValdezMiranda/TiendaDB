@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Ver producto
+{% endblock %}
+
+{% block main %}
+<div class="container mt-4">
+    <h2 class="title mb-4">Ver Productos</h2>
+    
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre del Producto</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Disponibilidad</th>
+                    <th scope="col" class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.IdProducto }}</td>
+                    <td>{{ producto.NombreProducto }}</td>
+                    <td>${{ "%.2f"|format(producto.Precio) }}</td>
+                    <td>
+                        {% if producto.Disponible %}
+                            <span class="badge bg-success">Disponible</span>
+                        {% else %}
+                            <span class="badge bg-danger">No Disponible</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ producto.IdProducto }}">
+                            Editar
+                        </button>
+                    </td>
+                </tr>
+
+                <!-- Modal for this specific product -->
+                <div class="modal fade" id="editModal{{ producto.IdProducto }}" tabindex="-1" aria-labelledby="editModalLabel{{ producto.IdProducto }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel{{ producto.IdProducto }}">Editar Producto: {{ producto.NombreProducto }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                
+                                <!-- UPDATE FORM -->
+                                <!-- The action points to an edit route containing the product ID -->
+                                <form action="/producto/editar/{{ producto.IdProducto }}" method="post" class="mb-4">
+                                    <div class="mb-3">
+                                        <input autocomplete="off" class="form-control mx-auto w-75" name="nombre" placeholder="Nombre" type="text" value="{{ producto.NombreProducto }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <!-- Note: changed type to 'number' and added 'step' for decimals -->
+                                        <input class="form-control mx-auto w-75" name="precio" placeholder="Precio" type="number" step="0.01" value="{{ producto.Precio }}" required>
+                                    </div>
+                                    <div class="d-flex flex-column align-items-center mb-3">
+                                        <div class="form-check">
+                                            <!-- Logic to check the radio button if available -->
+                                            <input class="form-check-input" type="radio" name="disponible" id="disponible1_{{ producto.IdProducto }}" value="1" {% if producto.Disponible %}checked{% endif %}>
+                                            <label class="form-check-label" for="disponible1_{{ producto.IdProducto }}">
+                                                Disponible
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <!-- Logic to check the radio button if NOT available -->
+                                            <input class="form-check-input" type="radio" name="disponible" id="disponible2_{{ producto.IdProducto }}" value="0" {% if not producto.Disponible %}checked{% endif %}>
+                                            <label class="form-check-label" for="disponible2_{{ producto.IdProducto }}">
+                                                No disponible
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary w-50" type="submit">Actualizar</button>
+                                </form>
+
+                                <hr>
+
+                                <!-- DELETE FORM -->
+                                <!-- We use a separate form for the delete action to easily POST to a different route -->
+                                <form action="/producto/eliminar/{{ producto.IdProducto }}" method="post">
+                                    <!-- The onclick event adds a quick browser confirmation pop-up so users don't accidentally delete items -->
+                                    <button class="btn btn-danger w-50" type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.');">Eliminar Producto</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Modal -->
+
+                {% else %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-3">
+                        No hay productos activos en este momento.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

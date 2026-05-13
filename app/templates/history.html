@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Historial
+{% endblock %}
+
+{% block main %}
+<div class="container mt-4">
+    <h2 class="title mb-4">Historial de órdenes</h2>
+    
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Precio (unidad)</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Precio Total</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Fecha de creación</th>
+                    <th scope="col">Hora de recolección</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for orden in ordenes %}
+                <tr>
+                    <td>{{ orden.IdOrden }}</td>
+                    <td>{{ orden.NombreProducto }}</td>
+                    <td>${{ "%.2f"|format(orden.PrecioUnidad) }}</td>
+                    <td>{{ orden.Cantidad }}</td>
+                    <td>${{ "%.2f"|format(orden.PrecioTotal) }}</td>
+                    <td>
+                        {% if orden.IdEstado == 1 %}
+                            <span class="badge bg-primary">
+                        {% elif orden.IdEstado == 2 %}
+                            <span class="badge bg-warning">
+                        {% elif orden.IdEstado == 3 %}
+                            <span class="badge bg-success">
+                        {% elif orden.IdEstado == 4 %}
+                            <span class="badge bg-danger">
+                        {% else %}
+                            <span class="badge bg-secondary">
+                        {% endif %}
+                        {{ orden.Estado }}
+                        </span>
+                    </td>
+                    <td>{{ orden.FechaHoraCreacion }}</td>
+                    <td>{{ orden.FechaHoraRecoleccion }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="9" class="text-center text-muted py-3">
+                        No se han hecho órdenes en este momento.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

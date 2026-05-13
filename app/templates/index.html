@@ -1,0 +1,258 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Órdenes
+{% endblock %}
+
+{% block main %}
+<div class="container mt-4">
+    <h2 class="title mb-4">¡Bienvenido {{ name }}!</h2>
+    
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    {% if admin %}
+                    <th scope="col">Cliente</th>
+                    {% endif %}
+                    <th scope="col">Producto</th>
+                    <th scope="col">Precio (unidad)</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Precio Total</th>
+                    {% if admin %}
+                    <th scope="col">Método de pago</th>
+                    {% endif %}
+                    <th scope="col">Estado</th>
+                    <th scope="col">Hora de recolección</th>
+                    <th scope="col" class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for orden in ordenes %}
+                <tr>
+                    <td>{{ orden.IdOrden }}</td>
+                    
+                    {% if admin %}
+                    <td>{{ orden.Nombre }}</td>
+                    {% endif %}
+                    <td>{{ orden.NombreProducto }}</td>
+                    
+                    <td>${{ "%.2f"|format(orden.PrecioUnidad) }}</td>
+                    <td>{{ orden.Cantidad }}</td>
+                    <td>${{ "%.2f"|format(orden.PrecioTotal) }}</td>
+                    {% if admin %}
+                    <td>{{ orden.Metodo }}</td>
+                    {% endif %}
+                    <td>
+                        {% if orden.IdEstado == 1 %}
+                            <span class="badge bg-primary">
+                        {% elif orden.IdEstado == 2 %}
+                            <span class="badge bg-warning">
+                        {% elif orden.IdEstado == 3 %}
+                            <span class="badge bg-success">
+                        {% elif orden.IdEstado == 4 %}
+                            <span class="badge bg-danger">
+                        {% else %}
+                            <span class="badge bg-secondary">
+                        {% endif %}
+                        {{ orden.Estado }}
+                        </span>
+                    </td>
+                    <td>{{ orden.FechaHoraRecoleccion }}</td>
+                    <td class="text-center">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ orden.IdOrden }}">
+                            Actualizar orden
+                        </button>
+                    </td>
+                </tr>
+
+                <!-- ================= MODAL DE EDICIÓN ================= -->
+                <div class="modal fade" id="editModal{{ orden.IdOrden }}" aria-hidden="true" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Detalles de la Orden #{{ orden.IdOrden }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/orden/editar/{{ orden.IdOrden }}" method="post">
+                                    <input type="hidden" name="id_orden" value="{{ orden.IdOrden }}">
+                                    <!-- Read-only fields (Shared across states 1 and 2) -->
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">ID Orden</label>
+                                            <input type="text" class="form-control bg-light text-muted" value="{{ orden.IdOrden }}" readonly>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">Cliente</label>
+                                            <input type="text" class="form-control bg-light text-muted" value="{{ orden.Nombre }}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">Producto</label>
+                                            <input type="text" class="form-control bg-light text-muted" value="{{ orden.NombreProducto }}" readonly>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">Precio Total</label>
+                                            <input type="text" class="form-control bg-light text-muted" value="${{ '%.2f'|format(orden.PrecioTotal) }}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">Estado</label>
+                                            <input type="text" class="form-control bg-light text-muted" value="{{ orden.Estado }}" readonly>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold">Hora de recolección</label>
+                                            <input type="text" class="form-control bg-light text-muted" value="{{ orden.FechaHoraRecoleccion }}" readonly>
+                                        </div>
+                                    </div>
+
+                                    <!-- Editable / Non-Editable Cantidad -->
+                                    <hr>
+                                    <div class="mb-3">
+                                        {% if orden.IdEstado == 1 %}
+                                            <label class="form-label fw-bold text-primary">Cantidad (Modificable)</label>
+                                            <input type="number" class="form-control border-primary shadow-sm" name="cantidad" value="{{ orden.Cantidad }}" min="1">
+                                            <small class="text-muted">Puede actualizar la cantidad de productos antes del pago.</small>
+                                            <button type="submit" class="mt-3 form-control btn btn-primary shadow-sm">Actualizar orden</button>
+                                        {% elif orden.IdEstado == 2 %}
+                                            <label class="form-label fw-bold">Cantidad</label>
+                                            <input type="number" class="form-control bg-light text-muted mb-3" value="{{ orden.Cantidad }}" readonly>
+                                        {% endif %}
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer d-flex justify-content-between">
+                                {% if orden.IdEstado == 1 %}
+                                <div>
+                                    <button type="button" class="btn btn-success" data-bs-target="#paymentModal{{ orden.IdOrden }}" data-bs-toggle="modal">Proceder al pago de orden</button>
+                                </div>
+                                {% endif %}
+                                {% if admin %}
+                                <div>
+                                    <button type="button" class="form-control btn btn-success" data-bs-toggle="modal" data-bs-target="#completarModal{{ orden.IdOrden }}">
+                                        Completar orden
+                                    </button>
+                                </div>
+                                {% endif %}
+                                {% if orden.IdEstado == 1 or orden.IdEstado == 2 %}
+                                <div>
+                                        <form action="/orden/eliminar/{{ orden.IdOrden }}" method="post">
+                                            <button type="submit" class="btn btn-outline-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta orden? Esta acción no se puede deshacer.');">Eliminar orden</button>
+                                        </form>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= MODAL DE PAGO (Only for Estado 1) ================= -->
+                {% if orden.IdEstado == 1 %}
+                <div class="modal fade" id="paymentModal{{ orden.IdOrden }}" aria-hidden="true" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <!-- Change the action to your future route -->
+                            <form action="/orden/confirmar/{{ orden.IdOrden }}" method="POST">
+                                <div class="modal-header bg-success text-white">
+                                    <h5 class="modal-title">Método de pago - Orden #{{ orden.IdOrden }}</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="id_orden" value="{{ orden.IdOrden }}">
+                                    <input type="hidden" name="precio_total" value="{{ orden.PrecioTotal }}">
+                                    <input type="hidden" id="hidden_cantidad_{{ orden.IdOrden }}" name="cantidad" value="{{ orden.Cantidad }}">
+
+                                    <div class="mb-3">
+                                        <label for="metodo_{{ orden.IdOrden }}" class="form-label fw-bold">Seleccione Método de Pago</label>
+                                        <select class="form-select" id="metodo_{{ orden.IdOrden }}" name="metodo_pago" required>
+                                            <option value="" disabled selected>Selecciona una opción...</option>
+                                            <option value="1">Efectivo</option>
+                                            <option value="2">Tarjeta</option>
+                                            <option value="3">En línea</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-target="#editModal{{ orden.IdOrden }}" data-bs-toggle="modal">Volver</button>
+                                    <button type="submit" class="btn btn-success">Confirmar pago</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <!-- ================= MODAL COMPLETAR ORDEN ================= -->
+                <div class="modal fade" id="completarModal{{ orden.IdOrden }}" aria-hidden="true" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <form action="/orden/completar/{{ orden.IdOrden }}" method="POST">
+                                <input type="hidden" name="id_pago" value="{{ orden.IdPago }}">
+                                <input type="hidden" name="precio_total" value="{{ orden.PrecioTotal }}">
+                                <div class="modal-header bg-success text-white">
+                                    <h5 class="modal-title">Completar Orden #{{ orden.IdOrden }}</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                
+                                <div class="modal-body">
+                                    <!-- Always pass the payment method ID back to the server -->
+                                    <input type="hidden" name="metodo_pago" value="{{ orden.IdMetodoPago }}">
+
+                                    {% if orden.IdMetodoPago == 1 %}
+                                        <!-- Efectivo -->
+                                        <div class="mb-3">
+                                            <label for="cantidad_pagada_{{ orden.IdOrden }}" class="form-label fw-bold">Cantidad pagada</label>
+                                            <input type="number" step="0.01" min="0" class="form-control" id="cantidad_pagada_{{ orden.IdOrden }}" name="cantidad_pagada" placeholder="0.00" required>
+                                        </div>
+                                        
+                                    {% elif orden.IdMetodoPago == 2 %}
+                                        <!-- Tarjeta -->
+                                        <div class="alert alert-info text-center" role="alert">
+                                            <i class="bi bi-credit-card fs-1 d-block mb-2"></i>
+                                            Por favor, inserte la tarjeta de crédito en la terminal para proceder con el cobro.
+                                        </div>
+                                        
+                                    {% elif orden.IdMetodoPago == 3 %}
+                                        <!-- En línea -->
+                                        <div class="alert alert-success text-center" role="alert">
+                                            <i class="bi bi-check-circle fs-1 d-block mb-2"></i>
+                                            Este producto ya ha sido pagado en línea. Confirme para completar la orden.
+                                        </div>
+                                    {% else %}
+                                        <!-- Fallback en caso de que no haya un método de pago definido -->
+                                        <p class="text-center text-muted">Método de pago no reconocido.</p>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="modal-footer">
+                                    <!-- Button to go back to the Edit Modal -->
+                                    <button type="button" class="btn btn-secondary" data-bs-target="#editModal{{ orden.IdOrden }}" data-bs-toggle="modal">Volver</button>
+                                    <!-- Confirm button -->
+                                    <button type="submit" class="btn btn-success" {% if not orden.IdMetodoPago in [1, 2, 3] %}disabled{% endif %}>Confirmar acción</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <tr>
+                    {% if admin %}
+                    <td colspan="10" class="text-center text-muted py-3">
+                        No hay órdenes confirmadas en este momento.
+                    </td>
+                    {% else %}
+                    <td colspan="8" class="text-center text-muted py-3">
+                        No hay órdenes activas en este momento.
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
