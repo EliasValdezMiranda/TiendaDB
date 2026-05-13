@@ -1,6 +1,6 @@
 ﻿# TiendaDB
 
-Demostración de uso: [![Actividad 07 - Proyecto Final](https://markdown-videos-api.jorgenkh.no/url?url=https%3A%2F%2Fyoutu.be%2FD25i03dgOXc)](https://youtu.be/D25i03dgOXc)
+[![Actividad 07 - Proyecto Final](https://markdown-videos-api.jorgenkh.no/url?url=https%3A%2F%2Fyoutu.be%2FD25i03dgOXc)](https://youtu.be/D25i03dgOXc)
 
 El proyecto TiendaDB implementa una web app y REST API básica para el manejo de órdenes y productos en una tienda (basada en la tienda "Los Compadres" en la Universidad de Sonora).
 
