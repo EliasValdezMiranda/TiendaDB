@@ -4,7 +4,7 @@
 * El proyecto utiliza un servidor Flask para proveer una web app y una REST API para acceder y modificar los contenidos de una base de datos de Microsoft SQL Server.
 * Desarrollado como la séptima actividad y proyecto final de la materia **Desarrollo de Sistemas IV** impartida por el profesor Meza Ibarra Iván Dostoyewski en el semestre 2026-1.
 
-## Instrucciones de uso
+## Instrucciones de Uso
 
 1. Ejecutar el archivo **`docs/db_script.sql`** en el servidor de Microsoft SQL Server por utilizar.
 2. Especificar las variables de entorno en el archivo **`.env`** para la conexión a la base de datos.
@@ -12,7 +12,7 @@
 4. Ejecutar el archivo **`run.py`**
 > El programa se ejecuta en la ruta defecto de Flask (`localhost:5000`) en modo debug.
 
-## Estructura del proyecto
+## Estructura del Proyecto
 
 ```text
 TiendaDB
@@ -35,6 +35,8 @@ TiendaDB
 * **`/`** - Aplicación web
 * **`/api/`** - API REST
 
-## Demostración de uso
+## Capturas de Pantalla
+
+## Demostración de Uso
 
 [![Actividad 07 - Proyecto Final](https://markdown-videos-api.jorgenkh.no/url?url=https%3A%2F%2Fyoutu.be%2FD25i03dgOXc)](https://youtu.be/D25i03dgOXc)
