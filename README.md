@@ -4,7 +4,7 @@
 
 El proyecto TiendaDB implementa una web app y REST API básica para el manejo de órdenes y productos en una tienda (basada en la tienda "Los Compadres" en la Universidad de Sonora).
 
-**Estructura del proyecto**
+## Estructura del proyecto
 * app: Almacena los archivos con la lógica y estructura de la aplicación
     * api: Almacena los archivos de lógica para la REST API
     * static: Almacena los archivos estáticos del proyecto (aquellos que no se modifican)
@@ -17,13 +17,13 @@ El proyecto TiendaDB implementa una web app y REST API básica para el manejo de
 * .env: Almacena las credenciales de acceso a la base de datos
 * run.py: Archivo de arranque del programa. Inicia la web app y la API REST
 
-**Instrucciones de uso**
+## Instrucciones de uso
 1.- Ejecutar el archivo db_script.sql en el servidor de Microsoft SQL Server por utilizar.
 2.- Especificar las variables de entorno en el archivo ".env" para la conexión a la base de datos.
 3.- Instalar las dependencias en requirements.txt
 4.- Ejecutar el archivo run.py
 * El programa se ejecuta en la ruta de Flask por defecto (localhost:5000) en modo debug.
 
-**Blueprints**
+## Blueprints
 / - Aplicación web
 /api/ - API REST
