@@ -37,6 +37,13 @@ TiendaDB
 
 ## Capturas de Pantalla
 
-## Demostración de Uso
+### Vista de Cliente
+![Vista de cliente - Vista de órdenes activas](/docs/assets/Screenshot3.png?raw=true "Vista de órdenes activas")
+![Vista de cliente - Historial de órdenes](/docs/assets/Screenshot4.png?raw=true "Historial de órdenes")
 
+### Vista de Administrador
+![Vista de administrador - Creación de nuevo producto](/docs/assets/Screenshot1.png?raw=true "Creación de nuevo producto")
+![Vista de administrador - Vista de productos](/docs/assets/Screenshot2.png?raw=true "Vista de productos")
+
+## Demostración de Uso
 [![Actividad 07 - Proyecto Final](https://markdown-videos-api.jorgenkh.no/url?url=https%3A%2F%2Fyoutu.be%2FD25i03dgOXc)](https://youtu.be/D25i03dgOXc)
