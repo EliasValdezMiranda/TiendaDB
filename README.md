@@ -1,6 +1,8 @@
 # TiendaDB
 
 * El proyecto TiendaDB implementa una web app y REST API básica para el manejo de órdenes y productos en una tienda (basada en la tienda "Los Compadres" en la Universidad de Sonora).
+* El proyecto utiliza un servidor Flask para proveer una web app y una REST API para acceder y modificar los contenidos de una base de datos de Microsoft SQL Server.
+* Desarrollado como la séptima actividad y proyecto final de la materia **Desarrollo de Sistemas IV** impartida por el profesor Meza Ibarra Iván Dostoyewski en el semestre 2026-1.
 
 ## Instrucciones de uso
 
