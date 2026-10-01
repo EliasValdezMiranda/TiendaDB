@@ -1,4 +1,9 @@
 <div align="center">
+    <img
+    src="docs/assets/icon.png"
+    alt="Money Bag icon"
+    width="48"
+/>
   <h1 align="center">TiendaDB</h1>
   <h4 align="center">Aplicación web y API REST para la tienda "Los Compadres"</h4>
 </div>
