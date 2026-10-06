@@ -14,14 +14,24 @@
 * El proyecto utiliza un servidor Flask para proveer una web app y una REST API para acceder y modificar los contenidos de una base de datos de Microsoft SQL Server.
 * Desarrollado como la séptima actividad y proyecto final de la materia **Desarrollo de Sistemas IV** impartida por el profesor Meza Ibarra Iván Dostoyewski en el semestre 2026-1.
 
+## ⚙️ Dependencias
+* Python 3.10.6+
+* pip
+* Microsoft SQL Server
+
 ## 📋 Instrucciones de Uso
 
-1. Ejecutar el archivo **`docs/db_script.sql`** en el servidor de Microsoft SQL Server por utilizar.
-2. Especificar las variables de entorno en el archivo **`.env`** para la conexión a la base de datos.
-3. Instalar las dependencias en **`requirements.txt`**
-4. Ejecutar el archivo **`run.py`**
-> El programa se ejecuta en la ruta defecto de Flask (`localhost:5000`) en modo debug.
+1. Instalar Python y Microsoft SQL Server.
+2. Ejecutar el archivo **`docs/db_script.sql`** en el servidor de Microsoft SQL Server por utilizar.
 
+> [!WARNING]
+> Por propósitos de demostración, el usuario administrador del sistema se crea con el nombre de usuario **`admin`** y contraseña **`admin`**, lo que se recomienda modificar dentro del archivo **`docs/db_script.sql`** previo a su ejecución.
+
+3. Instalar las librerías necesarias con el comando `pip3 install -r requirements.txt` en una terminal.
+4. Especificar las variables de entorno en el archivo **`.env`** para la conexión a la base de datos.
+5. Instalar las dependencias en **`requirements.txt`**
+6. Ejecutar el archivo **`run.py`**
+> El programa se ejecuta en la ruta defecto de Flask (`localhost:5000`) en modo debug.
 ## 🔍 Estructura del Proyecto
 
 ```text
